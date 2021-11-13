@@ -8,6 +8,8 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
+syn cluster elixirTop contains=@elixirNotTop,@elixirNotTop,@elixirRegexSpecial,@elixirStringContained,@elixirDeclaration
+
 syn cluster elixirNotTop contains=@elixirRegexSpecial,@elixirStringContained,@elixirDeclaration,elixirTodo,elixirArguments,elixirBlockDefinition,elixirUnusedVariable,elixirStructDelimiter,elixirListDelimiter
 syn cluster elixirRegexSpecial contains=elixirRegexEscape,elixirRegexCharClass,elixirRegexQuantifier,elixirRegexEscapePunctuation
 syn cluster elixirStringContained contains=elixirInterpolation,elixirRegexEscape,elixirRegexCharClass
@@ -88,7 +90,7 @@ syn match elixirString             "\(\w\)\@<!?\%(\\\(x\d{1,2}\|\h{1,2}\h\@!\>\|
 syn region elixirBlock              matchgroup=elixirBlockDefinition start="\<do\>:\@!" end="\<end\>" contains=ALLBUT,@elixirNotTop fold
 syn region elixirAnonymousFunction  matchgroup=elixirBlockDefinition start="\<fn\>"     end="\<end\>" contains=ALLBUT,@elixirNotTop fold
 
-syn region elixirArguments start="(" end=")" contained contains=elixirOperator,elixirAtom,elixirPseudoVariable,elixirAlias,elixirBoolean,elixirVariable,elixirUnusedVariable,elixirNumber,elixirDocString,elixirAtomInterpolated,elixirRegex,elixirString,elixirStringDelimiter,elixirRegexDelimiter,elixirInterpolationDelimiter,elixirSigil,elixirAnonymousFunction,elixirComment,elixirCharList,elixirCharListDelimiter
+syn region elixirArguments start="[([:space:]]" end="[)[:space:]]" contained contains=elixirOperator,elixirAtom,elixirPseudoVariable,elixirAlias,elixirBoolean,elixirVariable,elixirUnusedVariable,elixirNumber,elixirDocString,elixirAtomInterpolated,elixirRegex,elixirString,elixirStringDelimiter,elixirRegexDelimiter,elixirInterpolationDelimiter,elixirSigil,elixirAnonymousFunction,elixirComment,elixirCharList,elixirCharListDelimiter
 
 syn match elixirDelimEscape "\\[(<{\[)>}\]/\"'|]" transparent display contained contains=NONE
 
@@ -109,6 +111,20 @@ syn region elixirSigil matchgroup=elixirSigilDelimiter start="\~\l\/"           
 syn region elixirSigil matchgroup=elixirSigilDelimiter start=+\~\a\z("""\)+ end=+^\s*\z1+ skip=+\\"+ fold
 syn region elixirSigil matchgroup=elixirSigilDelimiter start=+\~\a\z('''\)+ end=+^\s*\z1+ skip=+\\'+ fold
 
+exe 'syn region  eelixirExpression matchgroup=eelixirDelimiter start="<%"  end="%\@<!%>" contains=@elixirTop  containedin=htmlTag,htmlValue keepend'
+exe 'syn region  eelixirExpression matchgroup=eelixirDelimiter start="<%=" end="%\@<!%>" contains=@elixirTop  containedin=htmlTag,htmlValue keepend'
+exe 'syn region  surfaceExpression matchgroup=surfaceDelimiter start="{{" end="}}" contains=@elixirTop  containedin=htmlTag,htmlValue keepend'
+exe 'syn region  heexExpression matchgroup=heexDelimiter start="{" end="}" contains=@elixirTop  containedin=htmlTag,htmlValue keepend'
+exe 'syn region  heexExpression matchgroup=heexDelimiter start="{" end="}" skip="#{[^}]*}" contains=@elixirTop  containedin=htmlTag,htmlValue keepend'
+exe 'syn region  eelixirQuote      matchgroup=eelixirDelimiter start="<%%" end="%\@<!%>" contains=@elixirTop  containedin=htmlTag,htmlValue keepend'
+exe 'syn region  eelixirComment    matchgroup=eelixirDelimiter start="<%#" end="%\@<!%>" contains=elixirTodo,@Spell containedin=htmlTag,htmlValue keepend'
+
+" Define the default highlighting.
+
+hi def link eelixirDelimiter PreProc
+hi def link surfaceDelimiter PreProc
+hi def link heexDelimiter PreProc
+hi def link eelixirComment   Comment
 
 " LiveView Sigils surrounded with ~L"""
 syntax include @HTML syntax/html.vim

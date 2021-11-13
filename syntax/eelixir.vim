@@ -54,13 +54,13 @@ endif
 
 syn include @elixirTop syntax/elixir.vim
 
-syn cluster eelixirRegions contains=eelixirBlock,surfaceExpression,eelixirExpression,eelixirComment
+syn cluster eelixirRegions contains=eelixirBlock,surfaceExpression,heexExpression,eelixirExpression,eelixirComment
 
 exe 'syn region  eelixirExpression matchgroup=eelixirDelimiter start="<%"  end="%\@<!%>" contains=@elixirTop  containedin=ALLBUT,@eelixirRegions keepend'
 exe 'syn region  eelixirExpression matchgroup=eelixirDelimiter start="<%=" end="%\@<!%>" contains=@elixirTop  containedin=ALLBUT,@eelixirRegions keepend'
 exe 'syn region  surfaceExpression matchgroup=surfaceDelimiter start="{{" end="}}" contains=@elixirTop  containedin=ALLBUT,@eelixirRegions keepend'
-exe 'syn region  surfaceExpression matchgroup=surfaceDelimiter start="{" end="}" contains=@elixirTop  containedin=ALLBUT,@eelixirRegions keepend'
-exe 'syn region  surfaceExpression matchgroup=surfaceDelimiter start="{" end="}" skip="#{[^}]*}" contains=@elixirTop  containedin=htmlValue keepend'
+exe 'syn region  heexExpression matchgroup=heexDelimiter start="{" end="}" contains=@elixirTop  containedin=ALLBUT,@eelixirRegions keepend'
+exe 'syn region  heexExpression matchgroup=heexDelimiter start="{" end="}" skip="#{[^}]*}" contains=@elixirTop  containedin=htmlValue keepend'
 exe 'syn region  eelixirQuote      matchgroup=eelixirDelimiter start="<%%" end="%\@<!%>" contains=@elixirTop  containedin=ALLBUT,@eelixirRegions keepend'
 exe 'syn region  eelixirComment    matchgroup=eelixirDelimiter start="<%#" end="%\@<!%>" contains=elixirTodo,@Spell containedin=ALLBUT,@eelixirRegions keepend'
 
@@ -68,6 +68,7 @@ exe 'syn region  eelixirComment    matchgroup=eelixirDelimiter start="<%#" end="
 
 hi def link eelixirDelimiter PreProc
 hi def link surfaceDelimiter PreProc
+hi def link heexDelimiter PreProc
 hi def link eelixirComment   Comment
 
 let b:current_syntax = 'eelixir'
